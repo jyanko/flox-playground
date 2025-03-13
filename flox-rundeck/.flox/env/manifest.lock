@@ -1,0 +1,408 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "version": 1,
+    "install": {
+      "gum": {
+        "pkg-path": "gum",
+        "pkg-group": "other_stuff",
+        "version": "^0.14.5"
+      },
+      "openjdk11": {
+        "pkg-path": "openjdk11",
+        "pkg-group": "rundeck_java"
+      },
+      "rundeck": {
+        "pkg-path": "rundeck",
+        "pkg-group": "rundeck_app",
+        "version": ">=5,<6.0.0"
+      }
+    },
+    "vars": {
+      "INTRO_MESSAGE": "It's gettin' Flox in here"
+    },
+    "hook": {},
+    "profile": {
+      "common": "   gum style \\\n   --foreground 212 --border-foreground 212 --border double \\\n   --align center --width 50 --margin \"1 2\" --padding \"2 4\" \\\n     $INTRO_MESSAGE\n"
+    },
+    "options": {
+      "systems": [
+        "aarch64-darwin",
+        "aarch64-linux",
+        "x86_64-darwin",
+        "x86_64-linux"
+      ],
+      "allow": {
+        "licenses": []
+      },
+      "semver": {
+        "allow-pre-releases": true
+      }
+    },
+    "services": {
+      "rundeck": {
+        "command": "rundeck start --basedir $PWD/rundeck"
+      }
+    }
+  },
+  "packages": [
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/8n0labp3m7za7azv53f6yfps5ifc0pfl-gum-0.14.5.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "name": "gum-0.14.5",
+      "pname": "gum",
+      "rev": "9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "rev_count": 742084,
+      "rev_date": "2025-01-21T14:28:11Z",
+      "scrape_date": "2025-01-23T00:15:48Z",
+      "stabilities": [
+        "stable",
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.14.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/8ll1vyz1qj1n551icmnr52yblf2y57yd-gum-0.14.5"
+      },
+      "system": "aarch64-darwin",
+      "group": "other_stuff",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/7rm5j6xfgb7z552cvbdaxhvjdgg12d5r-gum-0.14.5.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "name": "gum-0.14.5",
+      "pname": "gum",
+      "rev": "9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "rev_count": 742084,
+      "rev_date": "2025-01-21T14:28:11Z",
+      "scrape_date": "2025-01-23T00:15:48Z",
+      "stabilities": [
+        "stable",
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.14.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/grlkv28clq587zfv398cdga67yci0xp1-gum-0.14.5"
+      },
+      "system": "aarch64-linux",
+      "group": "other_stuff",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/vgsn25lfv75rnhfnwa04wx8xm68z80sv-gum-0.14.5.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "name": "gum-0.14.5",
+      "pname": "gum",
+      "rev": "9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "rev_count": 742084,
+      "rev_date": "2025-01-21T14:28:11Z",
+      "scrape_date": "2025-01-23T00:15:48Z",
+      "stabilities": [
+        "stable",
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.14.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/xig0syqgpam9vlam4zr5xka6sj0a2ss0-gum-0.14.5"
+      },
+      "system": "x86_64-darwin",
+      "group": "other_stuff",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/pbahvb6vvamnr3c4jba3hf6myawcdxyp-gum-0.14.5.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "name": "gum-0.14.5",
+      "pname": "gum",
+      "rev": "9e4d5190a9482a1fb9d18adf0bdb83c6e506eaab",
+      "rev_count": 742084,
+      "rev_date": "2025-01-21T14:28:11Z",
+      "scrape_date": "2025-01-23T00:15:48Z",
+      "stabilities": [
+        "stable",
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.14.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/y5m3h1r4zsgxy95g41cif5lxnnml1pkp-gum-0.14.5"
+      },
+      "system": "x86_64-linux",
+      "group": "other_stuff",
+      "priority": 5
+    },
+    {
+      "attr_path": "openjdk11",
+      "broken": false,
+      "derivation": "/nix/store/4v6ymk3gwrcjfkqyjwfs6yyzyf4v1w75-zulu-ca-jdk-11.0.24.drv",
+      "description": "Certified builds of OpenJDK",
+      "install_id": "openjdk11",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "zulu-ca-jdk-11.0.24",
+      "pname": "openjdk11",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "11.0.24",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/23riav0qy3cz2xp8gyc9ggzidmh6vdf7-zulu-ca-jdk-11.0.24"
+      },
+      "system": "aarch64-darwin",
+      "group": "rundeck_java",
+      "priority": 5
+    },
+    {
+      "attr_path": "openjdk11",
+      "broken": false,
+      "derivation": "/nix/store/069abbk94npr0v1n598vsikdfn3a90c3-openjdk-11.0.25+9.drv",
+      "description": "Open-source Java Development Kit",
+      "install_id": "openjdk11",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "openjdk-11.0.25+9",
+      "pname": "openjdk11",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "11.0.25+9",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/p57v6cy0ja0641paqmn2w26qpvy52l3z-openjdk-11.0.25+9-debug",
+        "out": "/nix/store/mzc30brdb9v6v2y01d3b73m14nzf1mnd-openjdk-11.0.25+9"
+      },
+      "system": "aarch64-linux",
+      "group": "rundeck_java",
+      "priority": 5
+    },
+    {
+      "attr_path": "openjdk11",
+      "broken": false,
+      "derivation": "/nix/store/bmglpp2d4f3bbspfkb8bd5bs556jlr5g-zulu-ca-jdk-11.0.24.drv",
+      "description": "Certified builds of OpenJDK",
+      "install_id": "openjdk11",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "zulu-ca-jdk-11.0.24",
+      "pname": "openjdk11",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "11.0.24",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/k7shrylxxlhn1l0wcs8x9l9wkw166mhj-zulu-ca-jdk-11.0.24"
+      },
+      "system": "x86_64-darwin",
+      "group": "rundeck_java",
+      "priority": 5
+    },
+    {
+      "attr_path": "openjdk11",
+      "broken": false,
+      "derivation": "/nix/store/7rdnxcl6py3zgihcymm5k2m0bhsy9dgf-openjdk-11.0.25+9.drv",
+      "description": "Open-source Java Development Kit",
+      "install_id": "openjdk11",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "openjdk-11.0.25+9",
+      "pname": "openjdk11",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "11.0.25+9",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/7kzsfk9d123n5v2lgqqmzlzqlsy8accm-openjdk-11.0.25+9-debug",
+        "out": "/nix/store/0gddhcfnx82n0ljqk7nkvzldf5fjdfxf-openjdk-11.0.25+9"
+      },
+      "system": "x86_64-linux",
+      "group": "rundeck_java",
+      "priority": 5
+    },
+    {
+      "attr_path": "rundeck",
+      "broken": false,
+      "derivation": "/nix/store/nr95q79fphmvlc22b9gv441kxglw9b6z-rundeck-5.9.0-20250205.drv",
+      "description": "Job scheduler and runbook automation",
+      "install_id": "rundeck",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "rundeck-5.9.0-20250205",
+      "pname": "rundeck",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.9.0-20250205",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/hlb3kkhin1rwicac7jyfb7xiq815ybv5-rundeck-5.9.0-20250205"
+      },
+      "system": "aarch64-darwin",
+      "group": "rundeck_app",
+      "priority": 5
+    },
+    {
+      "attr_path": "rundeck",
+      "broken": false,
+      "derivation": "/nix/store/4vf7an9bdbky0vp7zjfw8gxy3lw34l9c-rundeck-5.9.0-20250205.drv",
+      "description": "Job scheduler and runbook automation",
+      "install_id": "rundeck",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "rundeck-5.9.0-20250205",
+      "pname": "rundeck",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.9.0-20250205",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/c63cr20hxbsd7baglahrjn7a9v7l81fq-rundeck-5.9.0-20250205"
+      },
+      "system": "aarch64-linux",
+      "group": "rundeck_app",
+      "priority": 5
+    },
+    {
+      "attr_path": "rundeck",
+      "broken": false,
+      "derivation": "/nix/store/1n2dnmlbxpyv7kgxln5sng9n6sjj65d8-rundeck-5.9.0-20250205.drv",
+      "description": "Job scheduler and runbook automation",
+      "install_id": "rundeck",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "rundeck-5.9.0-20250205",
+      "pname": "rundeck",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.9.0-20250205",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/9iclqfca6jsqdw717x258slv9bfcg80z-rundeck-5.9.0-20250205"
+      },
+      "system": "x86_64-darwin",
+      "group": "rundeck_app",
+      "priority": 5
+    },
+    {
+      "attr_path": "rundeck",
+      "broken": false,
+      "derivation": "/nix/store/l4d8qn1nd914br88f4wvnfkzh2xkixad-rundeck-5.9.0-20250205.drv",
+      "description": "Job scheduler and runbook automation",
+      "install_id": "rundeck",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "name": "rundeck-5.9.0-20250205",
+      "pname": "rundeck",
+      "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+      "rev_count": 764837,
+      "rev_date": "2025-03-09T09:40:45Z",
+      "scrape_date": "2025-03-11T00:31:17Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.9.0-20250205",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/293acx7gqrmpw9r23z70awq8nrlr6lkf-rundeck-5.9.0-20250205"
+      },
+      "system": "x86_64-linux",
+      "group": "rundeck_app",
+      "priority": 5
+    }
+  ]
+}
