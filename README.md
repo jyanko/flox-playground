@@ -56,6 +56,13 @@ To stop using this environment, type 'exit'
 
 ```
 
+**View services status**
+```
+❯ flox services status
+NAME       STATUS       PID
+rundeck    Running    39992
+```
+
 **Stop the rundeck service**
 ```
 ❯ flox services stop rundeck
