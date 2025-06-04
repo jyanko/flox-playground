@@ -21,7 +21,13 @@ Reference:
 Simple demonstration of fresh clone of git repo to a stood up vanilla rundeck server in 4 commands. 
 
 After running these four commands, a basic rundeck server is up and available at http://localhost:4440 in about 30 seconds.
-
+- This starts up rundeck locally
+  - with default user/pass
+  - with local h2 db - not suitable for prod use
+  - use this method for dev/testing only
+- Rundeck Docs
+  - [Getting Started](https://docs.rundeck.com/docs/learning/getting-started)
+  - [Administrator Guide](https://docs.rundeck.com/docs/administration)
 ```
 ❯ git clone git@github.com:jyanko/flox-playground.git
 
@@ -64,6 +70,16 @@ Grails application running at http://localhost:4440 in environment: production
 [2025-03-13T12:04:48,429] INFO  rundeckapp.BootStrap [SpringApplicationShutdownHook] - Rundeck Shutdown detected
 ```
 
+Monitor console log after service is started
+```
+❯ flox services logs --follow rundeck
+rundeck: [2025-06-04T11:11:16,934] INFO  rundeckapp.Application [main] - The following 1 profile is active: "production"
+rundeck: [2025-06-04T11:11:38,168] INFO  liquibase.database [main] - Set default schema name to PUBLIC
+rundeck: [2025-06-04T11:11:38,270] INFO  liquibase.lockservice [main] - Successfully acquired change log lock
+rundeck: [2025-06-04T11:11:40,094] INFO  liquibase.changelog [main] - Reading from PUBLIC.DATABASECHANGELOG
+rundeck: [2025-06-04T11:11:40,163] INFO  liquibase.servicelocator [main] - Cannot load service: liquibase.hub.HubService: Provider liquibase.hub.core.StandardHubService could not be instantiated
+...
+```
 See what package versions it installed
 ```
 ❯ flox list
