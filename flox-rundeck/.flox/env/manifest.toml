@@ -22,7 +22,8 @@ gum.pkg-path = "gum"
 gum.version = "^0.14.5"
 gum.pkg-group = "other_stuff"
 rundeck.pkg-path = "rundeck"
-rundeck.version = ">=5,<6.0.0"
+#rundeck.version = ">=5,<6.0.0"
+rundeck.version = "5.10.0-20250312"
 rundeck.pkg-group = "rundeck_app"
 
 ## Environment Variables ---------------------------------------------
