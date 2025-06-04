@@ -20,7 +20,6 @@ Reference:
 
 Simple demonstration of fresh clone of git repo to a stood up vanilla rundeck server in 4 commands. 
 
-After running these four commands, a basic rundeck server is up and available at http://localhost:4440 in about 30 seconds.
 - This starts up rundeck locally
   - with default user/pass
   - with local h2 db - not suitable for prod use
@@ -28,6 +27,10 @@ After running these four commands, a basic rundeck server is up and available at
 - Rundeck Docs
   - [Getting Started](https://docs.rundeck.com/docs/learning/getting-started)
   - [Administrator Guide](https://docs.rundeck.com/docs/administration)
+
+After running these first four commands, a basic rundeck server is up and available at http://localhost:4440 in about 30 seconds.
+
+**Clone repo and activate flox env**
 ```
 ❯ git clone git@github.com:jyanko/flox-playground.git
 
@@ -44,34 +47,31 @@ To stop using this environment, type 'exit'
   ║                                                  ║
   ║                                                  ║
   ╚══════════════════════════════════════════════════╝
+```
 
+**Start the rundeck service**
+```
 ❯ flox services start rundeck
 ✅ Service 'rundeck' started.
 
+```
 
+**Stop the rundeck service**
+```
+❯ flox services stop rundeck
+✅ Service 'rundeck' stopped
+
+```
+
+**Monitor console log after service is started**
+```
 ❯ flox services logs rundeck --tail 5
 [2025-03-13T12:02:14,636] INFO  rundeckapp.BootStrap [main] - workflowConfigFix973: applying...
 [2025-03-13T12:02:14,642] INFO  rundeckapp.BootStrap [main] - workflowConfigFix973: No fix was needed. Storing fix application state.
 [2025-03-13T12:02:14,951] INFO  rundeckapp.BootStrap [main] - Rundeck startup finished in 618ms
 [2025-03-13T12:02:14,956] INFO  rundeckapp.Application [main] - Started Application in 24.775 seconds (JVM running for 26.796)
 Grails application running at http://localhost:4440 in environment: production
-```
 
-Stop the rundeck service
-```
-❯ flox services stop rundeck
-✅ Service 'rundeck' stopped
-
-❯ flox services logs rundeck --tail 5
-[2025-03-13T12:02:14,642] INFO  rundeckapp.BootStrap [main] - workflowConfigFix973: No fix was needed. Storing fix application state.
-[2025-03-13T12:02:14,951] INFO  rundeckapp.BootStrap [main] - Rundeck startup finished in 618ms
-[2025-03-13T12:02:14,956] INFO  rundeckapp.Application [main] - Started Application in 24.775 seconds (JVM running for 26.796)
-Grails application running at http://localhost:4440 in environment: production
-[2025-03-13T12:04:48,429] INFO  rundeckapp.BootStrap [SpringApplicationShutdownHook] - Rundeck Shutdown detected
-```
-
-Monitor console log after service is started
-```
 ❯ flox services logs --follow rundeck
 rundeck: [2025-06-04T11:11:16,934] INFO  rundeckapp.Application [main] - The following 1 profile is active: "production"
 rundeck: [2025-06-04T11:11:38,168] INFO  liquibase.database [main] - Set default schema name to PUBLIC
@@ -80,7 +80,7 @@ rundeck: [2025-06-04T11:11:40,094] INFO  liquibase.changelog [main] - Reading fr
 rundeck: [2025-06-04T11:11:40,163] INFO  liquibase.servicelocator [main] - Cannot load service: liquibase.hub.HubService: Provider liquibase.hub.core.StandardHubService could not be instantiated
 ...
 ```
-See what package versions it installed
+**See what package versions flox installed**
 ```
 ❯ flox list
 gum: gum (0.14.5)
