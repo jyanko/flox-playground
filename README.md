@@ -34,7 +34,7 @@ After running these first four commands, a go dev env will be up and available i
 
 **Clone repo and activate flox env**
 ```
-❯ git clone git@github.com:jyanko/flox-gobuffalo.git
+❯ git clone git@github.com:jyanko/flox-playground.git
 
 ❯ cd flox-playground/flox-gobuffalo
   
