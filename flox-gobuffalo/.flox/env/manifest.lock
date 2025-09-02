@@ -1,0 +1,796 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "version": 1,
+    "install": {
+      "bash": {
+        "pkg-path": "bash"
+      },
+      "curl": {
+        "pkg-path": "curl"
+      },
+      "go": {
+        "pkg-path": "go",
+        "version": "1.24.6"
+      },
+      "gum": {
+        "pkg-path": "gum"
+      },
+      "nodejs": {
+        "pkg-path": "nodejs"
+      },
+      "yarn": {
+        "pkg-path": "yarn"
+      }
+    },
+    "vars": {
+      "BUFFALO_CLI_VERSION": "0.18.14",
+      "BUFFALO_USE_CLI": "cli/cmd/buffalo",
+      "GOBIN": "$FLOX_ENV_PROJECT/go_temp/bin",
+      "GOENV": "$FLOX_ENV_PROJECT/go_temp/cache/goenv",
+      "GOMODCACHE": "$FLOX_ENV_PROJECT/go_temp/pkg/mod",
+      "GOPATH": "$FLOX_ENV_PROJECT/go_temp",
+      "GOSUMDB": "sum.golang.org",
+      "GOTOOLCHAIN": "auto",
+      "INTRO_MESSAGE": "FLOX :: Env Active: ${FLOX_PROMPT_ENVIRONMENTS}"
+    },
+    "hook": {
+      "on-activate": "  unset GOROOT\n\n  # Debug and ensure GOBIN directory exists with proper permissions\n  echo \"DEBUG: GOBIN is $GOBIN\"\n  mkdir -p \"$GOBIN\"\n  chmod 755 \"$GOBIN\"\n  ls -ld \"$GOBIN\"\n\n  # create .nvmrc file including installed nodejs version\n  node -v | sed -e 's/^v//;' >  ${FLOX_ENV_PROJECT}/.nvmrc\n\n  # Install nodejs dependencies\n  yarn install --no-progress\n  \n  # Clean Go cache to avoid version conflicts\n  # go clean -modcache\n  # go clean -cache\n\n  # Install Buffalo if not already present\n  if ! command -v buffalo >/dev/null 2>&1; then\n   echo \"Installing Buffalo v$BUFFALO_CLI_VERSION...\"\n   go install github.com/gobuffalo/${BUFFALO_USE_CLI}@v${BUFFALO_CLI_VERSION}\n  fi\n\n  if ! command -v soda >/dev/null 2>&1; then\n   echo \"Installing buffalo pop (soda) latest...\"\n   go install github.com/gobuffalo/pop/v6/soda@latest\n  fi\n\n  # Welcome message once env is activated\n  gum style --foreground 212 --border-foreground 212 --border double --align center --width 80 --margin \"1 2\" --padding \"1 2\" \"$INTRO_MESSAGE\"\n"
+    },
+    "profile": {
+      "common": "\n export PATH=\"$GOBIN:$PATH\"\n \n # capture versions:\n VERSION_BUFFALO=$(buffalo version --json 2>&1 | jq -r .version | sed -e 's/v//;')\n VERSION_GO=$(go env GOVERSION | sed -e 's/^go//;')\n VERSION_YARN=$(yarn --version )\n VERSION_NODE=$(node -v | sed -e 's/^v//;')\n VERSION_NPM=$(nvm -v   | sed -e 's/^v//;')\n VERSION_FLOX=$(flox --version)\n\n # set alias(es) to use in activated env\n alias floxEnv='\\\n   echo \"go     : $VERSION_GO\" ;\\\n   echo \"yarn   : $VERSION_BUFFALO\" ;\\\n   echo \"buffalo: $VERSION_BUFFALO\" ;\\\n   echo \"node   : $VERSION_NODE\" ;\\\n   echo \"nvm    : $VERSION_NPM\" ;\\\n   echo \"flox   : $VERSION_FLOX\" ;\\\n   go env   | egrep \"(GOBIN|GOENV|GOVERSION|GOPATH|GOROOT|GOPROXY|GOMOD)\" ;\\\n   printenv | egrep \"^(FLOX_ENV|FLOX_ENV_PROJECT|FLOX_CONFIG_DIR)=\" | column -t -s \"=\"'\n\nalias upChuck='\\\n   echo buffalodev_$(git log -n1 --pretty=format:\"%h\") > VERSION && \\\n   rm -rf yarn.lock node_modules && \\\n   nvm use && \\\n   soda migrate up && \\\n   buffalo dev'\n\nfloxEnv\n\n\n",
+      "zsh": "  typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet\n"
+    },
+    "options": {}
+  },
+  "packages": [
+    {
+      "attr_path": "bash",
+      "broken": false,
+      "derivation": "/nix/store/b88qb9f8qjvivcapj50rxphq88qbzz9v-bash-interactive-5.3p3.drv",
+      "description": "GNU Bourne-Again Shell, the de facto standard shell on Linux (for interactive use)",
+      "install_id": "bash",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "bash-interactive-5.3p3",
+      "pname": "bash",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:28:52.184009Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.3p3",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/18pblxx1gyvs9ac4sqk6hzyqvwb14mr0-bash-interactive-5.3p3-dev",
+        "doc": "/nix/store/pghb5kl6zmy5v7dajbvnpwn182iagmn6-bash-interactive-5.3p3-doc",
+        "info": "/nix/store/7qmylc7n4p62ak8rhaqs8s66ly2zqzlp-bash-interactive-5.3p3-info",
+        "man": "/nix/store/jzqdikj5wnk8nj6f4jc9mmpp4r065y1i-bash-interactive-5.3p3-man",
+        "out": "/nix/store/fx3w71jy6d57i32k58jh6n5z1l8lii6z-bash-interactive-5.3p3"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "bash",
+      "broken": false,
+      "derivation": "/nix/store/fym8b5yhw4yjzglx2cgly2qdi1lwxcr9-bash-interactive-5.3p3.drv",
+      "description": "GNU Bourne-Again Shell, the de facto standard shell on Linux (for interactive use)",
+      "install_id": "bash",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "bash-interactive-5.3p3",
+      "pname": "bash",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:37:15.458557Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.3p3",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/36rdsabwqk6sj0g3bvdlbzhx3b4qk2fi-bash-interactive-5.3p3-debug",
+        "dev": "/nix/store/8bccir29ca7g4wcz5mlbzjm5wgr819p7-bash-interactive-5.3p3-dev",
+        "doc": "/nix/store/c1s4mk89dxk79bm9x049jd6ri30hk5jy-bash-interactive-5.3p3-doc",
+        "info": "/nix/store/cpd7rjkp4wyangfzs4r6jw9wcm634nsd-bash-interactive-5.3p3-info",
+        "man": "/nix/store/hq5lb4s2ja1b7qk1hqb267nnwigpbp3p-bash-interactive-5.3p3-man",
+        "out": "/nix/store/9q9ny4crzz934bwnk0knx78b48932fm4-bash-interactive-5.3p3"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "bash",
+      "broken": false,
+      "derivation": "/nix/store/f7lsh2159z4zdslsnsm4kgszh04xw03l-bash-interactive-5.3p3.drv",
+      "description": "GNU Bourne-Again Shell, the de facto standard shell on Linux (for interactive use)",
+      "install_id": "bash",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "bash-interactive-5.3p3",
+      "pname": "bash",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:45:25.231455Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.3p3",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/rr7zya7bvzihmxiaxb691gil9h71hpaq-bash-interactive-5.3p3-dev",
+        "doc": "/nix/store/nb51vr4waqcyxaq1dvm457ifgqfgzhm7-bash-interactive-5.3p3-doc",
+        "info": "/nix/store/ksvx76bzparmhbp2pl3z4m533jkj3fhs-bash-interactive-5.3p3-info",
+        "man": "/nix/store/6g44ivblqsz1ns1pf4lry03yzy918fcx-bash-interactive-5.3p3-man",
+        "out": "/nix/store/v6swzjy3x0c6njnac7fb66cf4ky5m83a-bash-interactive-5.3p3"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "bash",
+      "broken": false,
+      "derivation": "/nix/store/a1gxrhmhas35php11xvrmqknqkyvkaj3-bash-interactive-5.3p3.drv",
+      "description": "GNU Bourne-Again Shell, the de facto standard shell on Linux (for interactive use)",
+      "install_id": "bash",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "bash-interactive-5.3p3",
+      "pname": "bash",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:52:52.119888Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.3p3",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/h22i3hbcqlf8wibb2y4svvzin6p1f6xm-bash-interactive-5.3p3-debug",
+        "dev": "/nix/store/k7j93hvaqwg9l4n8hkq5xkjs1gx71ki9-bash-interactive-5.3p3-dev",
+        "doc": "/nix/store/igc25asigsqbinz6zc7q2c7zdy8j95gb-bash-interactive-5.3p3-doc",
+        "info": "/nix/store/pcrnjn7j2nwfzl6pkp5ly2ghicg44g2f-bash-interactive-5.3p3-info",
+        "man": "/nix/store/5d31kkm0d82l3pkllpfkh1hmx3czrpyf-bash-interactive-5.3p3-man",
+        "out": "/nix/store/7xqn2kis5gaa01r6p95zw700k4lw0lxp-bash-interactive-5.3p3"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "curl",
+      "broken": false,
+      "derivation": "/nix/store/81d8mph4k79r1vcmi6z48j8vjlcbg12d-curl-8.14.1.drv",
+      "description": "Command line tool for transferring files with URL syntax",
+      "install_id": "curl",
+      "license": "curl",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "curl-8.14.1",
+      "pname": "curl",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:28:52.564780Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.14.1",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/gv7qf6zgiarqg83hvmpmhp8kzlq628zd-curl-8.14.1-bin",
+        "dev": "/nix/store/lfmmix1810nsl1q3930mpm264n5c2ray-curl-8.14.1-dev",
+        "devdoc": "/nix/store/a91ckfijdqm91v2c91pfrlbbnw3znadk-curl-8.14.1-devdoc",
+        "man": "/nix/store/jqimaqnzbnd8z4zfhddiy6jgl1m4xik1-curl-8.14.1-man",
+        "out": "/nix/store/gbxp56ql5b5dpa8y3v0fzrznk33adw9b-curl-8.14.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "curl",
+      "broken": false,
+      "derivation": "/nix/store/wlvc10q7iw4wl74c9avpviw6yb6a2aw9-curl-8.14.1.drv",
+      "description": "Command line tool for transferring files with URL syntax",
+      "install_id": "curl",
+      "license": "curl",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "curl-8.14.1",
+      "pname": "curl",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:37:16.025583Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.14.1",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/wwjs1l3w5m75lnrg77z616wksv0dv52z-curl-8.14.1-bin",
+        "debug": "/nix/store/5dhc1gi13dr85jg60dyn0lhf5vr40zy8-curl-8.14.1-debug",
+        "dev": "/nix/store/mhyhay7b3fw6a1bvfip8mgnayv0z2h91-curl-8.14.1-dev",
+        "devdoc": "/nix/store/1l66zjvny49b9f91b3m3i2ma0d0j0hnb-curl-8.14.1-devdoc",
+        "man": "/nix/store/b43y4gd0xbs1faryixgy7ixvwg8ywhhy-curl-8.14.1-man",
+        "out": "/nix/store/aymgaf1ypv80dksz2hi1fl21s94v11wd-curl-8.14.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "curl",
+      "broken": false,
+      "derivation": "/nix/store/0pgl5y22c76qndn3lj69wnxr0pdnks5m-curl-8.14.1.drv",
+      "description": "Command line tool for transferring files with URL syntax",
+      "install_id": "curl",
+      "license": "curl",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "curl-8.14.1",
+      "pname": "curl",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:45:25.614201Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.14.1",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/kfc5ydqp53wyvyws3p2ar5175g2zxqsh-curl-8.14.1-bin",
+        "dev": "/nix/store/nllwkirra47hcwv4zj94qb63sz7r317y-curl-8.14.1-dev",
+        "devdoc": "/nix/store/yrzww474vdg58ym8zn57na7lkiw0igp2-curl-8.14.1-devdoc",
+        "man": "/nix/store/f1lhxjjbylb22vhn9nk7h5c0wm15l4g8-curl-8.14.1-man",
+        "out": "/nix/store/rg8k06q1h2rqr8i93a1pgi9jd4xk7zj2-curl-8.14.1"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "curl",
+      "broken": false,
+      "derivation": "/nix/store/v79ssbjq7rpqv2n423q630wz21dg3cq1-curl-8.14.1.drv",
+      "description": "Command line tool for transferring files with URL syntax",
+      "install_id": "curl",
+      "license": "curl",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "curl-8.14.1",
+      "pname": "curl",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:52:52.725184Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.14.1",
+      "outputs_to_install": [
+        "bin",
+        "man"
+      ],
+      "outputs": {
+        "bin": "/nix/store/vdl7fgasaimqnkr47xw8vq7alafv9zyx-curl-8.14.1-bin",
+        "debug": "/nix/store/q6awxfxbahmlwlfn2972znhwi2ixw4f0-curl-8.14.1-debug",
+        "dev": "/nix/store/adykv8rsphd1c0hd2345yvvpn5yb6s2r-curl-8.14.1-dev",
+        "devdoc": "/nix/store/6r6ccb6zwdq5zbx9c7gpk8qwg5idsf2v-curl-8.14.1-devdoc",
+        "man": "/nix/store/bsga1570f0sxs832blngxcb7jcc706mw-curl-8.14.1-man",
+        "out": "/nix/store/ndk4rmzynqrms8sknjk8viibd6lldqa8-curl-8.14.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/b4f7b08k5wnka70sax9qx3d2p1x2sfb9-go-1.24.6.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "go-1.24.6",
+      "pname": "go",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:28:53.265597Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.24.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/rgmygksbfyy75iappxpinv0y8lxfq35x-go-1.24.6"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/x4i65glp99jc4a2cxkz1scx29s08dw05-go-1.24.6.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "go-1.24.6",
+      "pname": "go",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:37:17.518582Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.24.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/w30rz1jlg360zk9d34ylhdvcdz19vyxh-go-1.24.6"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/awngf5b7wwjyay1nlfjnk25a39f823c3-go-1.24.6.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "go-1.24.6",
+      "pname": "go",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:45:26.346747Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.24.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/kcj6a7xghpcsg6by6kkc03s3rr2v34il-go-1.24.6"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/lz6sgami9527f9s2sh8bd8y2imv8nqqb-go-1.24.6.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "go-1.24.6",
+      "pname": "go",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:52:54.344852Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.24.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/g026m2zmhiah7izdmmvgsq847z2sh1h1-go-1.24.6"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/jsj0mfm2znb3qilc260z1mb2s0vy35k6-gum-0.16.2.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "gum-0.16.2",
+      "pname": "gum",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:28:53.471035Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.16.2",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/j1f0iqns0mcx58cl7zm87m5l2yrmspmf-gum-0.16.2"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/vjp76yd32i13m9pl44q1sq5d1mpd21b5-gum-0.16.2.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "gum-0.16.2",
+      "pname": "gum",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:37:17.858946Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.16.2",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/wym8fkazpjdk53x61a2f93ibkd7fzc3z-gum-0.16.2"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/c8sl1xwz85q75vz9w9wxg5zmd05260fz-gum-0.16.2.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "gum-0.16.2",
+      "pname": "gum",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:45:26.547890Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.16.2",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/d6vvavvw1grw27c6hcpryxnbd9dhlgc3-gum-0.16.2"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/5ikmr5n3k5z1qyxx9w01hz2lk3nq6m3n-gum-0.16.2.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "gum-0.16.2",
+      "pname": "gum",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:52:54.707702Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.16.2",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/clzvgk0k4by4xvpsmcixj75x2x20by0j-gum-0.16.2"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs",
+      "broken": false,
+      "derivation": "/nix/store/0a9kkw6mh0f80jfq1nf9767hvg5gr71k-nodejs-22.18.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-22.18.0",
+      "pname": "nodejs",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:28:56.950784Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "22.18.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/4617bdwn34769c3bxkx9qgyzjh890qvf-nodejs-22.18.0-dev",
+        "libv8": "/nix/store/89zl005215fzsfsbq3ar5dff44c2v3f9-nodejs-22.18.0-libv8",
+        "out": "/nix/store/9yqq8szyz3qx8q6xlv1s3arhw4112wc8-nodejs-22.18.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs",
+      "broken": false,
+      "derivation": "/nix/store/1si9aramx1b8n9dgnaymh4s0v73zng5h-nodejs-22.18.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-22.18.0",
+      "pname": "nodejs",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:37:28.177204Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "22.18.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/0nzhmyzfcgynya9yy6gsp66bk47nq8s3-nodejs-22.18.0-dev",
+        "libv8": "/nix/store/5zfqiqmnv1xlx0fv0zy28hwcm332vdm1-nodejs-22.18.0-libv8",
+        "out": "/nix/store/sswndb8p93xa94x53769zh3lhci99g8f-nodejs-22.18.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs",
+      "broken": false,
+      "derivation": "/nix/store/5cxy82gwm7zl4fxbfkj6ah23j9j5wbd6-nodejs-22.18.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-22.18.0",
+      "pname": "nodejs",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:45:30.067241Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "22.18.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/f39fwzjpkj0hn26f3av1smbl0lmabizj-nodejs-22.18.0-dev",
+        "libv8": "/nix/store/w90f0kd8h7893i6l8jmh01z3zsr514q0-nodejs-22.18.0-libv8",
+        "out": "/nix/store/c5d89lgzr7np5pfv9l02vcnd84mg4gj4-nodejs-22.18.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs",
+      "broken": false,
+      "derivation": "/nix/store/6hkkd1197yqg4n9k2vk8phx098gn1axv-nodejs-22.18.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-22.18.0",
+      "pname": "nodejs",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:53:06.891822Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "22.18.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/mjgd69ahrwz5skifd30a87l1gb7yc785-nodejs-22.18.0-dev",
+        "libv8": "/nix/store/j5lyv0imv3iiwbqyqc1v9vdscwylmk56-nodejs-22.18.0-libv8",
+        "out": "/nix/store/9d235766g7alzlalw4z8yqxql0jl2mgd-nodejs-22.18.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "yarn",
+      "broken": false,
+      "derivation": "/nix/store/f88jx6ymc4y1hdcglkl3adh3l1nph400-yarn-1.22.22.drv",
+      "description": "Fast, reliable, and secure dependency management for javascript",
+      "install_id": "yarn",
+      "license": "BSD-2-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "yarn-1.22.22",
+      "pname": "yarn",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:30:24.851730Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.22.22",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/0pcb6qgi2map2pfpn9s0sbz050jya6wr-yarn-1.22.22"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "yarn",
+      "broken": false,
+      "derivation": "/nix/store/v0nq4jvl2kl42pvwir1l29a7khvbwyfl-yarn-1.22.22.drv",
+      "description": "Fast, reliable, and secure dependency management for javascript",
+      "install_id": "yarn",
+      "license": "BSD-2-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "yarn-1.22.22",
+      "pname": "yarn",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:39:38.770186Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.22.22",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/p1hn3w769d6lwlzz9dgj78z0qgxgs3pz-yarn-1.22.22"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "yarn",
+      "broken": false,
+      "derivation": "/nix/store/q2d7r4axh86y6pjcqwdzlbasq9n6if6j-yarn-1.22.22.drv",
+      "description": "Fast, reliable, and secure dependency management for javascript",
+      "install_id": "yarn",
+      "license": "BSD-2-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "yarn-1.22.22",
+      "pname": "yarn",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:47:05.783038Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.22.22",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/hy7yr39khyn5c1pp6r1gnpmgigzscqzj-yarn-1.22.22"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "yarn",
+      "broken": false,
+      "derivation": "/nix/store/1aa2hqsc1n5yhivjbkrr25p4zl00a96b-yarn-1.22.22.drv",
+      "description": "Fast, reliable, and secure dependency management for javascript",
+      "install_id": "yarn",
+      "license": "BSD-2-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "yarn-1.22.22",
+      "pname": "yarn",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:55:14.858207Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.22.22",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/0wckc0rh5m1v74g0sb3xa9ax0rf1dfg5-yarn-1.22.22"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    }
+  ]
+}

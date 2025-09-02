@@ -1,0 +1,177 @@
+## Flox Environment Manifest -----------------------------------------
+##
+##   _Everything_ you need to know about the _manifest_ is here:
+##
+##   https://flox.dev/docs/reference/command-reference/manifest.toml/
+##
+## -------------------------------------------------------------------
+# Flox manifest version managed by Flox CLI
+version = 1
+
+
+## Install Packages --------------------------------------------------
+##  $ flox install gum  <- puts a package in [install] section below
+##  $ flox search gum   <- search for a package
+##  $ flox show gum     <- show all versions of a package
+## -------------------------------------------------------------------
+[install]
+gum = { pkg-path = "gum" }
+nodejs = { pkg-path = "nodejs" }
+bash = { pkg-path = "bash" }
+curl = { pkg-path = "curl" }
+yarn = { pkg-path = "yarn" }
+go = { pkg-path = "go", version = "1.24.6" }
+
+
+## Environment Variables ---------------------------------------------
+##  ... available for use in the activated environment
+##      as well as [hook], [profile] scripts and [services] below.
+## -------------------------------------------------------------------
+[vars]
+INTRO_MESSAGE = "FLOX :: Env Active: ${FLOX_PROMPT_ENVIRONMENTS}"
+
+BUFFALO_CLI_VERSION = "0.18.14"
+BUFFALO_USE_CLI = "cli/cmd/buffalo"
+
+# Set Go environment variables
+GOPATH = "$FLOX_ENV_PROJECT/go_temp"
+GOBIN = "$FLOX_ENV_PROJECT/go_temp/bin"
+GOMODCACHE = "$FLOX_ENV_PROJECT/go_temp/pkg/mod"
+GOENV = "$FLOX_ENV_PROJECT/go_temp/cache/goenv"
+GOSUMDB = "sum.golang.org"
+GOTOOLCHAIN = 'auto'
+
+# FLOX_ENV_PROJECT <= this flox provided var holds the project dir path (ie: ~/GITCHECKOUT/project_clone)
+
+## Activation Hook ---------------------------------------------------
+##  ... run by _bash_ shell when you run 'flox activate'.
+## -------------------------------------------------------------------
+[hook]
+on-activate = """
+  unset GOROOT
+
+  # Debug and ensure GOBIN directory exists with proper permissions
+  echo "DEBUG: GOBIN is $GOBIN"
+  mkdir -p "$GOBIN"
+  chmod 755 "$GOBIN"
+  ls -ld "$GOBIN"
+
+  # create .nvmrc file including installed nodejs version
+  node -v | sed -e 's/^v//;' >  ${FLOX_ENV_PROJECT}/.nvmrc
+
+  # Install nodejs dependencies
+  yarn install --no-progress
+  
+  # Clean Go cache to avoid version conflicts
+  # go clean -modcache
+  # go clean -cache
+
+  # Install Buffalo if not already present
+  if ! command -v buffalo >/dev/null 2>&1; then
+   echo "Installing Buffalo v$BUFFALO_CLI_VERSION..."
+   go install github.com/gobuffalo/${BUFFALO_USE_CLI}@v${BUFFALO_CLI_VERSION}
+  fi
+
+  if ! command -v soda >/dev/null 2>&1; then
+   echo "Installing buffalo pop (soda) latest..."
+   go install github.com/gobuffalo/pop/v6/soda@latest
+  fi
+
+  # Welcome message once env is activated
+  gum style \
+  --foreground 212 --border-foreground 212 --border double \
+  --align center --width 80 --margin "1 2" --padding "1 2" \
+   "$INTRO_MESSAGE"
+"""
+
+## Profile script ----------------------------------------------------
+## ... sourced by _your shell_ when you run 'flox activate'.
+## -------------------------------------------------------------------
+[profile]
+common = '''
+
+ export PATH="$GOBIN:$PATH"
+ 
+ # capture versions:
+ VERSION_BUFFALO=$(buffalo version --json 2>&1 | jq -r .version | sed -e 's/v//;')
+ VERSION_GO=$(go env GOVERSION | sed -e 's/^go//;')
+ VERSION_YARN=$(yarn --version )
+ VERSION_NODE=$(node -v | sed -e 's/^v//;')
+ VERSION_NPM=$(nvm -v   | sed -e 's/^v//;')
+ VERSION_FLOX=$(flox --version)
+
+ # set alias(es) to use in activated env
+ alias floxEnv='\
+   echo "go     : $VERSION_GO" ;\
+   echo "yarn   : $VERSION_BUFFALO" ;\
+   echo "buffalo: $VERSION_BUFFALO" ;\
+   echo "node   : $VERSION_NODE" ;\
+   echo "nvm    : $VERSION_NPM" ;\
+   echo "flox   : $VERSION_FLOX" ;\
+   go env   | egrep "(GOBIN|GOENV|GOVERSION|GOPATH|GOROOT|GOPROXY|GOMOD)" ;\
+   printenv | egrep "^(FLOX_ENV|FLOX_ENV_PROJECT|FLOX_CONFIG_DIR)=" | column -t -s "="'
+
+alias upChuck='\
+   echo buffalodev_$(git log -n1 --pretty=format:"%h") > VERSION && \
+   rm -rf yarn.lock node_modules && \
+   nvm use && \
+   soda migrate up && \
+   buffalo dev'
+
+floxEnv
+
+
+'''
+
+zsh = """
+  typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+"""
+
+# bash = ...
+# fish = ...
+
+
+## Services ---------------------------------------------------------
+##  $ flox services start             <- Starts all services
+##  $ flox services status            <- Status of running services
+##  $ flox activate --start-services  <- Activates & starts all
+## ------------------------------------------------------------------
+[services]
+# myservice.command = "python3 -m http.server"
+
+
+## Include ----------------------------------------------------------
+## ... environments to create a composed environment
+## ------------------------------------------------------------------
+[include]
+# environments = [
+#     { dir = "../common" }
+# ]
+
+
+## Build and publish your own packages ------------------------------
+##  $ flox build
+##  $ flox publish
+## ------------------------------------------------------------------
+[build]
+# [build.myproject]
+# description = "The coolest project ever"
+# version = "0.0.1"
+# command = """
+#   mkdir -p $out/bin
+#   cargo build --release
+#   cp target/release/myproject $out/bin/myproject
+# """
+
+
+## Other Environment Options -----------------------------------------
+[options]
+# Systems that environment is compatible with
+# systems = [
+#   "aarch64-darwin",
+#   "aarch64-linux",
+#   "x86_64-darwin",
+#   "x86_64-linux",
+# ]
+# Uncomment to disable CUDA detection.
+# cuda-detection = false
