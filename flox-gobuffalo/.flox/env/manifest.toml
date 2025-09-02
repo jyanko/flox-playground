@@ -111,7 +111,7 @@ common = '''
    go env   | egrep "(GOBIN|GOENV|GOVERSION|GOPATH|GOROOT|GOPROXY|GOMOD)" ;\
    printenv | egrep "^(FLOX_ENV|FLOX_ENV_PROJECT|FLOX_CONFIG_DIR)=" | column -t -s "="'
 
-alias upChuck='\
+alias buffUp='\
    echo buffalodev_$(git log -n1 --pretty=format:"%h") > VERSION && \
    rm -rf yarn.lock node_modules && \
    nvm use && \
